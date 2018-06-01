@@ -21,7 +21,7 @@ class Machine:
         min_err_pos = -1
         for i in range(len(self.weak_learners)):
             self.errors[i] = self.error(self.weak_learners[i])
-
+            '''
             # print "h:", i, err
             print "old error",self.errors[i],
             if self.errors[i] > 0.5:
@@ -29,7 +29,7 @@ class Machine:
             print "new error", self.error(self.weak_learners[i])
 
             self.errors[i] = self.error(self.weak_learners[i])
-
+            '''
             if self.errors[i] < min_err:
                 min_err = self.errors[i]
                 min_err_pos = i
@@ -79,15 +79,15 @@ class Machine:
 
     def dif(self, h, x):
         if h<0:
-            if x[0]<=h:
-                return -1
-            else:
+            if x[0]<=-h:
                 return 1
+            else:
+                return -1
         else:
-            if x[0]>=h:
-                return -1
-            else:
+            if x[0]>h:
                 return 1
+            else:
+                return -1
 
     def learn(self, iterations):
         for j in range(iterations):
@@ -101,7 +101,7 @@ class Machine:
             print "xxxxx",self.e
 
             # print h_pos, "has error", self.e
-            if self.e == 0:
+            if self.e > 0.5:
                 break
             self.a = self.alpha(self.e)
             self.alphas.append({"h": h_pos, "alpha": self.a})
@@ -119,7 +119,7 @@ x = np.array([[0+40,10+100],[30+100,0+100],[100+100,50+100],[90+100,10+100], [0+
 y = (1, -1, 1, 1, -1, 1, -1,-1)
 n = 8.0
 w = [1.0/n, 1.0/n, 1.0/n, 1.0/n, 1.0/n, 1.0/n, 1.0/n, 1.0/n]
-weak_learners = [240, 140, 200, 190, 100]
+weak_learners = [241, 141, 211, 191, 99, -241, -141, -211, -191, -99]
 
 
 boost = Machine(x,y,w,weak_learners)
